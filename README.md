@@ -3,3 +3,4 @@
 TEST2
 
 Neko sprotno besedilo.
+Še malo sprotnega besedila.
