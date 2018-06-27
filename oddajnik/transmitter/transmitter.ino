@@ -28,7 +28,7 @@ void setup() {
 void loop() {
 
 
-
+  joystickData ();
   Radio.write ( &cont_data, sizeof(transmit_data) );
   delay (1000);
 
@@ -36,8 +36,27 @@ void loop() {
 
 
 void joystickData () {    //Za zrihtat joystick....
-  
+  boolean last_button;
+  unsigned long timer;
+  int y;
+  int THR[4] = {0, 341, 682, 1023};
   cont_data.ch[0] = analogRead (14);
-  cont_data.ch [1] = analogRead (15);
+  cont_data.ch[1] = analogRead (15);
+  cont_data.ch[2] = Thr[y];
 
+  if (millis() - timer > 25) {
+    swVal = digitalRead (1)
+    if (last_button = 0 && swVal = 0 && y < 3) {
+      y++;
+      last_button = !last_button;
+    }
+    if (last_button = 1 && swVal = 0) {
+      last_button = !last_button
+    }
+    if (last_button = 0 && swVal = 0 && y = 3) {
+      y = 0;
+      last_button = !last_button
+    }
+    timer = millis();
+  }
 }
