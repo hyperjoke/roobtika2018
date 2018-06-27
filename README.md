@@ -12,24 +12,24 @@ Nova veja
 
 
 
-##konstante
+## konstante
 vse črke z veliko
 
 const int KONSTANTA = 5;
 
 
-##spremenljivke
+## spremenljivke
 vse črke z malo (ločeno s _)
 
 int spremenljivka_ki_se_spreminja = 5;
 
-##objekti
+## objekti
 
 Prva črka z veliko (ostale besede z veliko)
 
 RF24 RadioModule(2,3);
 
-##funkcije
+## funkcije
 prva črka z malo (ostale besede z veliko)
 
 void nekaFunkcija(int a, long b)
