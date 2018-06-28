@@ -34,18 +34,12 @@ void setup() {
 void loop() {
   joystickData ();
   trimCode();
-<<<<<<< HEAD
   if (debug) {
     debugFunction();
   } else {
     Radio.write ( &cont_data, sizeof(transmit_data) );
     // delay (1000);
-
   }
-=======
-  Radio.write ( &cont_data, sizeof(transmit_data) );
- // delay (1000);
->>>>>>> f4fe55a91d529bfdd236dcf993fe2af796dcd53b
 }
 
 
