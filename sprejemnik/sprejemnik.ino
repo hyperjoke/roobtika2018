@@ -10,6 +10,7 @@ RF24 RadioModule(9, 10); //CE, CSN
 Servo Motor[ST_KANALOV];
 
 byte addresses = "12345";
+
 struct podatki_za_sprejem {
   unsigned short int ch[ST_KANALOV];
 };
@@ -37,7 +38,7 @@ void setup() {
 
   cont_data.ch[0] = 512; //
   cont_data.ch[1] = 512; //
-  cont_data.ch[2] = 550; //throtle
+  cont_data.ch[2] = 0; //throtle
   cont_data.ch[3] = 512; //
 }
 
@@ -45,7 +46,7 @@ void setup() {
 void loop() {
   //byte num=44;
   //unsigned long got_time;
-  /*if (RadioModule.available() ) {                            // While nothing is received
+  if (RadioModule.available() ) {                            // While nothing is received
     RadioModule.read( &cont_data, sizeof(podatki_za_sprejem) );
     for (int i = 0; i < ST_KANALOV; i++)
     {
@@ -53,10 +54,10 @@ void loop() {
       if (i < (ST_KANALOV - 1)) Serial.print(",");
     }
     Serial.println("");
+updateServo(cont_data.ch);
+    }
 
-    }*/
-
-  updateServo(cont_data.ch);
+  
 
 }
 
@@ -94,28 +95,5 @@ void updateServo(unsigned short int ch[ST_KANALOV]) {
 unsigned short int mapBrushless(unsigned short int tomap) {
   return ((tomap < 545) ? 0 :  constrain(map(tomap, 545, 1023, 165, 160), 60, 160));
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
