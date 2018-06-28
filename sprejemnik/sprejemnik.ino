@@ -37,7 +37,7 @@ void setup() {
 
   cont_data.ch[0] = 512; //
   cont_data.ch[1] = 512; //
-  cont_data.ch[2] = 512; //throtle
+  cont_data.ch[2] = 550; //throtle
   cont_data.ch[3] = 512; //
 }
 
@@ -45,21 +45,20 @@ void setup() {
 void loop() {
   //byte num=44;
   //unsigned long got_time;
-  if (RadioModule.available() ) {                            // While nothing is received
+  /*if (RadioModule.available() ) {                            // While nothing is received
     RadioModule.read( &cont_data, sizeof(podatki_za_sprejem) );
     for (int i = 0; i < ST_KANALOV; i++)
     {
-      // Serial.print(cont_data.ch[i]);
-      // if (i < (ST_KANALOV - 1)) Serial.print(",");
+      Serial.print(cont_data.ch[i]);
+      if (i < (ST_KANALOV - 1)) Serial.print(",");
     }
-    //Serial.println("");
-    updateServo(cont_data.ch);
-  }
+    Serial.println("");
 
+    }*/
 
+  updateServo(cont_data.ch);
 
 }
-
 
 
 
@@ -71,10 +70,18 @@ void loop() {
 void updateServo(unsigned short int ch[ST_KANALOV]) {
   for (int i = 0; i < 4; i++) {
     //vse kar je izven 0..1023 je 0 ozirma 1023
+
     unsigned short int mapirano = ch[i] > 1023 ? 1023 : ch[i];
     mapirano = mapirano < 0 ? 0 : mapirano;
 
-    mapirano = map(mapirano, 0 , 1023, 5, 175); //mapiranje/5..175 stopin
+
+    if (i == 2) { // je brushless (nastavi thotle)
+      //~97..19 min-tmax
+      mapirano = mapBrushless(mapirano);
+    } else {
+      mapirano = map(mapirano, 0 , 1023, 5, 175); //mapiranje/5..175 stopin
+    }
+
 
     Motor[i].write(mapirano);
     //Serial.print(mapirano);
@@ -82,3 +89,33 @@ void updateServo(unsigned short int ch[ST_KANALOV]) {
   }
   //Serial.println("DELA!");
 }
+
+
+unsigned short int mapBrushless(unsigned short int tomap) {
+  return ((tomap < 545) ? 0 :  constrain(map(tomap, 545, 1023, 165, 160), 60, 160));
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
