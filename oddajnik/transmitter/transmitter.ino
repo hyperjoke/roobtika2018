@@ -1,6 +1,10 @@
 #include <SPI.h>
 #include "RF24.h"
-//dummy comment
+
+
+//COM 15
+
+
 RF24 Radio(9, 10);          //CE, CSN
 byte addresses = "12345";
 
@@ -31,7 +35,6 @@ void loop() {
   trimCode();
   Radio.write ( &cont_data, sizeof(transmit_data) );
  // delay (1000);
-
 }
 
 
