@@ -3,6 +3,7 @@
 //dummy comment
 RF24 Radio(9, 10);          //CE, CSN
 byte addresses = "12345";
+bool debug = false;
 
 struct transmit_data {
   unsigned short int ch[4];
@@ -29,9 +30,13 @@ void setup() {
 void loop() {
   joystickData ();
   trimCode();
-  Radio.write ( &cont_data, sizeof(transmit_data) );
- // delay (1000);
+  if (debug) {
+    debugFunction();
+  } else {
+    Radio.write ( &cont_data, sizeof(transmit_data) );
+    // delay (1000);
 
+  }
 }
 
 
@@ -60,7 +65,7 @@ void joystickData () {    //Za zrihtat joystick....
     }
     timer = millis();
   }
-  
+
 }
 
 
@@ -83,6 +88,13 @@ void trimCode () {        //koda za kalibriranje
   if (cont_data.ch[1] < 700 && button == HIGH && last_button == false) {
     cont_data.ch[1] -= 10;
   }
-  
+
   last_button = button;
+}
+
+void debugFunction() {
+  for (int i = 0; i < 4; i++) {
+    Serial.print(cont_data.ch[i]);
+    Serial.print(",");
+  }
 }
