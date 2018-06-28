@@ -2,9 +2,6 @@
 #include "RF24.h"
 
 
-//COM 15
-
-
 RF24 Radio(9, 10);          //CE, CSN
 byte addresses = "12345";
 bool debug = false;
@@ -14,6 +11,8 @@ struct transmit_data {
 
 };
 
+int trim_var_x = 0;
+int trim_var_y = 0;
 transmit_data cont_data;
 
 void setup() {
@@ -23,7 +22,7 @@ void setup() {
   Radio.openWritingPipe (addresses);
 
   pinMode (5, INPUT_PULLUP);
-  pinMode (1, INPUT_PULLUP);
+  pinMode (16, INPUT_PULLUP);
 
   cont_data.ch[0] = 512;
   cont_data.ch[1] = 512;
@@ -31,17 +30,24 @@ void setup() {
   cont_data.ch[3] = 512;
 }
 
+
+
+
 void loop() {
   joystickData ();
   trimCode();
+
   if (debug) {
     debugFunction();
   } else {
-    Radio.write ( &cont_data, sizeof(transmit_data) );
-    // delay (1000);
+    sendData ();
   }
+
 }
 
+void sendData() {
+  Radio.write ( &cont_data, sizeof(transmit_data) );
+}
 
 void joystickData () {    //Za zrihtat joystick....
   boolean last_button;
@@ -49,8 +55,8 @@ void joystickData () {    //Za zrihtat joystick....
   int y = 0;
   int THR[4] = {0, 341, 682, 1023};
   bool swVal;
-  cont_data.ch[0] = analogRead(0);
-  cont_data.ch[1] = analogRead(1);
+  cont_data.ch[0] = analogRead(0) /*+ trim_var_x*/;
+  cont_data.ch[1] = analogRead(1) /*+ trim_var_y*/;
   cont_data.ch[2] = THR[y];
 
   if (millis() - timer > 25) {
@@ -69,6 +75,12 @@ void joystickData () {    //Za zrihtat joystick....
     timer = millis();
   }
 
+  /*
+    if (cont_data.ch[0] < 1) cont_data.ch[0] = 1;
+    if (cont_data.ch[0] > 1023) cont_data.ch[0] = 1023;
+    if (cont_data.ch[1] < 1) cont_data.ch[1] = 1;
+    if (cont_data.ch[1] > 1023) cont_data.ch[1] = 1023;
+  */
 }
 
 
@@ -78,18 +90,18 @@ void trimCode () {        //koda za kalibriranje
   bool last_button;
   button = digitalRead (5);
 
-  if (cont_data.ch[0] > 700 && button == HIGH && last_button == false) {
-    cont_data.ch[0] += 10;
+  if (cont_data.ch[0] > 650 && button == HIGH && last_button == false /*&& cont_data.ch[0] < 1013*/) {
+    trim_var_x += 10;
   }
-  if (cont_data.ch[0] < 700 && button == HIGH && last_button == false) {
-    cont_data.ch[0] -= 10;
+  if (cont_data.ch[0] < 300 && button == HIGH && last_button == false /*&& cont_data.ch[0] > 10*/) {
+    trim_var_x -= 10;
   }
 
-  if (cont_data.ch[1] > 700 && button == HIGH && last_button == false) {
-    cont_data.ch[1] += 10;
+  if (cont_data.ch[1] > 700 && button == HIGH && last_button == false /*&& cont_data.ch [1] < 1013*/) {
+    trim_var_y += 10;
   }
-  if (cont_data.ch[1] < 700 && button == HIGH && last_button == false) {
-    cont_data.ch[1] -= 10;
+  if (cont_data.ch[1] < 200 && button == HIGH && last_button == false /*&& cont_data.ch[1] > 10*/) {
+    trim_var_y -= 10;
   }
 
   last_button = button;
