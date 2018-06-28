@@ -1,6 +1,10 @@
 #include <SPI.h>
 #include "RF24.h"
-//dummy comment
+
+
+//COM 15
+
+
 RF24 Radio(9, 10);          //CE, CSN
 byte addresses = "12345";
 bool debug = false;
@@ -30,6 +34,7 @@ void setup() {
 void loop() {
   joystickData ();
   trimCode();
+<<<<<<< HEAD
   if (debug) {
     debugFunction();
   } else {
@@ -37,6 +42,10 @@ void loop() {
     // delay (1000);
 
   }
+=======
+  Radio.write ( &cont_data, sizeof(transmit_data) );
+ // delay (1000);
+>>>>>>> f4fe55a91d529bfdd236dcf993fe2af796dcd53b
 }
 
 
