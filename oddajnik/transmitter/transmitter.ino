@@ -55,8 +55,8 @@ void joystickData () {    //Za zrihtat joystick....
   int y = 0;
   int THR[4] = {0, 341, 682, 1023};
   bool swVal;
-  cont_data.ch[0] = analogRead(0) /*+ trim_var_x*/;
-  cont_data.ch[1] = analogRead(1) /*+ trim_var_y*/;
+  cont_data.ch[0] = analogRead(0) + trim_var_x;
+  cont_data.ch[1] = analogRead(1) + trim_var_y;
   cont_data.ch[2] = THR[y];
 
   if (millis() - timer > 25) {
@@ -76,9 +76,9 @@ void joystickData () {    //Za zrihtat joystick....
   }
 
   /*
-    if (cont_data.ch[0] < 1) cont_data.ch[0] = 1;
+    if (cont_data.ch[0] < 0) cont_data.ch[0] = 0;
     if (cont_data.ch[0] > 1023) cont_data.ch[0] = 1023;
-    if (cont_data.ch[1] < 1) cont_data.ch[1] = 1;
+    if (cont_data.ch[1] < 0) cont_data.ch[1] = 0;
     if (cont_data.ch[1] > 1023) cont_data.ch[1] = 1023;
   */
 }
@@ -89,15 +89,16 @@ void trimCode () {        //koda za kalibriranje
   bool button;
   bool last_button;
   button = digitalRead (5);
+  button = !button;
 
   if (cont_data.ch[0] > 650 && button == HIGH && last_button == false /*&& cont_data.ch[0] < 1013*/) {
     trim_var_x += 10;
   }
-  if (cont_data.ch[0] < 300 && button == HIGH && last_button == false /*&& cont_data.ch[0] > 10*/) {
+  if (cont_data.ch[0] < 200 && button == HIGH && last_button == false /*&& cont_data.ch[0] > 10*/) {
     trim_var_x -= 10;
   }
 
-  if (cont_data.ch[1] > 700 && button == HIGH && last_button == false /*&& cont_data.ch [1] < 1013*/) {
+  if (cont_data.ch[1] > 650 && button == HIGH && last_button == false /*&& cont_data.ch [1] < 1013*/) {
     trim_var_y += 10;
   }
   if (cont_data.ch[1] < 200 && button == HIGH && last_button == false /*&& cont_data.ch[1] > 10*/) {
@@ -106,6 +107,7 @@ void trimCode () {        //koda za kalibriranje
 
   last_button = button;
 }
+
 
 void debugFunction() {
   for (int i = 0; i < 4; i++) {
