@@ -19,6 +19,7 @@ podatki_za_sprejem cont_data;
 
 void setup() {
   Serial.begin(115200);
+  Serial.println("RESTART=============");
 
   /*RF Komunikacija*/
   RadioModule.begin();
@@ -31,7 +32,7 @@ void setup() {
   /*pritrdi servo motorje na pin D3,4,5,6*/
   for (int i; i < ST_KANALOV; i++) {
     Motor[i].attach(i + 3);
-    Serial.print("servo:"); Serial.println(i);
+    //Serial.print("servo:"); Serial.println(i);
   }
 
   cont_data.ch[0] = 512; //
@@ -48,11 +49,13 @@ void loop() {
     RadioModule.read( &cont_data, sizeof(podatki_za_sprejem) );
     for (int i = 0; i < ST_KANALOV; i++)
     {
-      Serial.print(cont_data.ch[i]);
-      if (i < (ST_KANALOV - 1)) Serial.print(",");
+      // Serial.print(cont_data.ch[i]);
+      // if (i < (ST_KANALOV - 1)) Serial.print(",");
     }
-    Serial.println("");
+    //Serial.println("");
+    updateServo(cont_data.ch);
   }
+
 
 
 }
@@ -66,25 +69,16 @@ void loop() {
     Mappira vse channele ter zapiše pozicije na serverje
 */
 void updateServo(unsigned short int ch[ST_KANALOV]) {
-  for (int i; i < ST_KANALOV; i++) {
+  for (int i = 0; i < 4; i++) {
     //vse kar je izven 0..1023 je 0 ozirma 1023
     unsigned short int mapirano = ch[i] > 1023 ? 1023 : ch[i];
     mapirano = mapirano < 0 ? 0 : mapirano;
-    
+
     mapirano = map(mapirano, 0 , 1023, 5, 175); //mapiranje/5..175 stopin
-    
+
     Motor[i].write(mapirano);
-    //   Serial.print(mapirano);
-    //   Serial.print(",");
+    //Serial.print(mapirano);
+    //Serial.print(",");
   }
-  // Serial.println();
+  //Serial.println("DELA!");
 }
-
-
-
-
-
-
-
-
-
