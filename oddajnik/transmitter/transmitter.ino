@@ -17,7 +17,8 @@ void setup() {
   Radio.setPALevel(RF24_PA_LOW);
   Radio.openWritingPipe (addresses);
 
-  pinMode (14, INPUT);
+  pinMode (5, INPUT_PULLUP);
+  pinMode (1, INPUT_PULLUP);
 
   cont_data.ch[0] = 512;
   cont_data.ch[1] = 512;
@@ -26,11 +27,10 @@ void setup() {
 }
 
 void loop() {
-
-
   joystickData ();
+  trimCode();
   Radio.write ( &cont_data, sizeof(transmit_data) );
-  delay (1000);
+ // delay (1000);
 
 }
 
@@ -38,25 +38,51 @@ void loop() {
 void joystickData () {    //Za zrihtat joystick....
   boolean last_button;
   unsigned long timer;
-  int y;
+  int y = 0;
   int THR[4] = {0, 341, 682, 1023};
-  cont_data.ch[0] = analogRead (14);
-  cont_data.ch[1] = analogRead (15);
-  cont_data.ch[2] = Thr[y];
+  bool swVal;
+  cont_data.ch[0] = analogRead(0);
+  cont_data.ch[1] = analogRead(1);
+  cont_data.ch[2] = THR[y];
 
   if (millis() - timer > 25) {
-    swVal = digitalRead (1)
-    if (last_button = 0 && swVal = 0 && y < 3) {
+    swVal = digitalRead(16);
+    if (last_button == 0 && swVal == 0 && y < 3) {
       y++;
       last_button = !last_button;
     }
-    if (last_button = 1 && swVal = 0) {
-      last_button = !last_button
+    if (last_button == 1 && swVal == 0) {
+      last_button = !last_button;
     }
-    if (last_button = 0 && swVal = 0 && y = 3) {
+    if (last_button == 0 && swVal == 0 && y == 3) {
       y = 0;
-      last_button = !last_button
+      last_button = !last_button;
     }
     timer = millis();
   }
+  
+}
+
+
+
+void trimCode () {        //koda za kalibriranje
+  bool button;
+  bool last_button;
+  button = digitalRead (5);
+
+  if (cont_data.ch[0] > 700 && button == HIGH && last_button == false) {
+    cont_data.ch[0] += 10;
+  }
+  if (cont_data.ch[0] < 700 && button == HIGH && last_button == false) {
+    cont_data.ch[0] -= 10;
+  }
+
+  if (cont_data.ch[1] > 700 && button == HIGH && last_button == false) {
+    cont_data.ch[1] += 10;
+  }
+  if (cont_data.ch[1] < 700 && button == HIGH && last_button == false) {
+    cont_data.ch[1] -= 10;
+  }
+  
+  last_button = button;
 }
