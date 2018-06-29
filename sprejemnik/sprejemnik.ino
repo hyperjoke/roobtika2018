@@ -84,16 +84,38 @@ void updateServo(unsigned short int ch[ST_KANALOV]) {
     }
 
 
-    Motor[i].write(mapirano);
+    Motor[i].write(omejitevServota(i));
+
     //Serial.print(mapirano);
     //Serial.print(",");
   }
   //Serial.println("DELA!");
 }
 
+unsigned short int omejitevServota(int ch_nr) {
+  switch (ch_nr) {
+    case 0:
+      return constrain(ch_nr, 45, 130);
+      break;
+
+    case 1:
+      return constrain(ch_nr, 0, 180); // TODO napiši omejitev
+      break;
+
+    case 2:
+      return constrain(ch_nr, 60, 160); // diy
+      break;
+
+    case 3:
+      return constrain(ch_nr, 0, 180); // TODO napiši omejitev
+      break;
+  }
+  return 0;
+}
+
 
 unsigned short int mapBrushless(unsigned short int tomap) {
-  return ((tomap < 545) ? 0 :  constrain(map(tomap, 545, 1023, 165, 160), 60, 160));
+  return ((tomap < 545) ? 0 :  map(tomap, 545, 1023, 165, 160));
 }
 
 
