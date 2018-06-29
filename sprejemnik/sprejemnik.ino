@@ -78,10 +78,9 @@ void updateServo(unsigned short int ch[ST_KANALOV]) {
       mapirano = mapBrushless(mapirano);
     } else {
       /*exponatno povečevanje*/
-      mapirano = pow(mapirano, 1.33);
+      mapirano = pow(mapirano, 0.74929092745);
     }
     Motor[i].write(omejitevServota(i, mapirano));
-
 
     Serial.print(" END: ");
     Serial.print(mapirano);
@@ -89,9 +88,6 @@ void updateServo(unsigned short int ch[ST_KANALOV]) {
   }
   Serial.println("DELA!");
 }
-
-
-
 
 /*
    virtualni endstopi
