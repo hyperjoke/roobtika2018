@@ -48,16 +48,15 @@ void loop() {
   //unsigned long got_time;
   if (RadioModule.available() ) {                            // While nothing is received
     RadioModule.read( &cont_data, sizeof(podatki_za_sprejem) );
-    for (int i = 0; i < ST_KANALOV; i++)
-    {
+    for (int i = 0; i < ST_KANALOV; i++) {
       Serial.print(cont_data.ch[i]);
       if (i < (ST_KANALOV - 1)) Serial.print(",");
     }
     Serial.println("");
-updateServo(cont_data.ch);
-    }
 
-  
+  }
+  updateServo(cont_data.ch);
+  Serial.println();
 
 }
 
@@ -83,7 +82,8 @@ void updateServo(unsigned short int ch[ST_KANALOV]) {
       mapirano = map(mapirano, 0 , 1023, 5, 175); //mapiranje/5..175 stopin
     }
 
-
+    Serial.print(omejitevServota(i));
+    Serial.println(omejitevServota(i));
     Motor[i].write(omejitevServota(i));
 
     //Serial.print(mapirano);
@@ -110,12 +110,13 @@ unsigned short int omejitevServota(int ch_nr) {
       return constrain(ch_nr, 0, 180); // TODO napiši omejitev
       break;
   }
+
   return 0;
 }
 
 
 unsigned short int mapBrushless(unsigned short int tomap) {
-  return ((tomap < 545) ? 0 :  map(tomap, 545, 1023, 165, 160));
+  return ((tomap < 545) ? 0 :  map(tomap, 545, 1023, 165, 160));//TODO
 }
 
 
