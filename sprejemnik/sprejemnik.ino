@@ -123,7 +123,7 @@ unsigned short int omejitevServota(int ch_nr, unsigned short int ch_data) {
 */
 
 unsigned short int mapBrushless(unsigned short int tomap) {
-  return ((tomap < 545) ? 0 :  constrain(map(tomap, 545, 1023, 165, 60), 60, 160));
+  return ((tomap < 545) ? 0 :  constrain(map(tomap, 545, 1023, 140, 60), 60, 160));
 }
 
 
