@@ -83,7 +83,7 @@ void updateServo(unsigned short int ch[ST_KANALOV]) {
     }
 
     Serial.print(omejitevServota(i));
-    Serial.println(omejitevServota(i));
+    Serial.print("|");
     Motor[i].write(omejitevServota(i));
 
     //Serial.print(mapirano);
