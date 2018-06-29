@@ -77,9 +77,9 @@ void updateServo(unsigned short int ch[ST_KANALOV]) {
       //~97..19 min-tmax
       mapirano = mapBrushless(mapirano);
     } else {
-      /*exponatno povečevanje*/
-      mapirano = pow(mapirano, 0.74929092745);
+      mapirano = map(mapirano, 0 , 1023, 5, 175); //mapiranje/5..175 stopin
     }
+
     Motor[i].write(omejitevServota(i, mapirano));
 
     Serial.print(" END: ");
