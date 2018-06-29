@@ -78,7 +78,8 @@ void updateServo(unsigned short int ch[ST_KANALOV]) {
       //~97..19 min-tmax
       mapirano = mapBrushless(mapirano);
     } else {
-      mapirano = map(mapirano, 0 , 1023, 5, 175); //mapiranje/5..175 stopin
+      mapirano = constrain(map(mapirano, 0 , 1023, -20 , 200),0,180); //mapiranje/5..175 stopin
+     
     }
     Motor[i].write(omejitevServota(i, mapirano));
 
@@ -101,7 +102,7 @@ unsigned short int omejitevServota(int ch_nr, unsigned short int ch_data) {
       break;
 
     case 1:
-      return constrain(ch_data, 0, 180); // TODO napiši omejitev
+      return constrain(ch_data, 5, 175); // TODO napiši omejitev
       break;
 
     case 2:
@@ -109,7 +110,7 @@ unsigned short int omejitevServota(int ch_nr, unsigned short int ch_data) {
       break;
 
     case 3:
-      return constrain(ch_data, 0, 180); // TODO napiši omejitev
+      return constrain(ch_data, 5, 175); // TODO napiši omejitev
       break;
   }
 
