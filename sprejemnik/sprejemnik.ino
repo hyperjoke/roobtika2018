@@ -78,15 +78,18 @@ void updateServo(unsigned short int ch[ST_KANALOV]) {
       //~97..19 min-tmax
       mapirano = mapBrushless(mapirano);
     } else {
-      mapirano = constrain(map(mapirano, 0 , 1023, -20 , 200),0,180); //mapiranje/5..175 stopin
-     
+      /*exponatno povečevanje*/
+      int n = map(mapirano, 0,1023,0,13);
+      float math = constrain(pow(1.49105, n),0,180);
+      mapirano = round(math);
+      //mapirano = constrain(map(mapirano, 0 , 1023, -20 , 200),0,180); //mapiranje/5..175 stopin
     }
     Motor[i].write(omejitevServota(i, mapirano));
 
-    //Serial.print(mapirano);
-    //Serial.print(",");
+    Serial.print(mapirano);
+    Serial.print(",");
   }
-  //Serial.println("DELA!");
+  Serial.println("DELA!");
 }
 
 
