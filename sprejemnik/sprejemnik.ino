@@ -48,16 +48,14 @@ void loop() {
   //unsigned long got_time;
   if (RadioModule.available() ) {                            // While nothing is received
     RadioModule.read( &cont_data, sizeof(podatki_za_sprejem) );
-    for (int i = 0; i < ST_KANALOV; i++)
-    {
+    for (int i = 0; i < ST_KANALOV; i++) {
       Serial.print(cont_data.ch[i]);
       if (i < (ST_KANALOV - 1)) Serial.print(",");
     }
     Serial.println("");
-updateServo(cont_data.ch);
-    }
-
-  
+  }
+  updateServo(cont_data.ch);
+  Serial.println();
 
 }
 
@@ -83,8 +81,9 @@ void updateServo(unsigned short int ch[ST_KANALOV]) {
       mapirano = map(mapirano, 0 , 1023, 5, 175); //mapiranje/5..175 stopin
     }
 
-
-    Motor[i].write(omejitevServota(i));
+    Serial.print(omejitevServota(i, mapirano));
+    Serial.print("|");
+    Motor[i].write(omejitevServota(i, mapirano));
 
     //Serial.print(mapirano);
     //Serial.print(",");
@@ -92,30 +91,44 @@ void updateServo(unsigned short int ch[ST_KANALOV]) {
   //Serial.println("DELA!");
 }
 
-unsigned short int omejitevServota(int ch_nr) {
+
+
+
+/*
+ * virtualni endstopi
+*/
+unsigned short int omejitevServota(int ch_nr, unsigned short int ch_data) {
   switch (ch_nr) {
     case 0:
-      return constrain(ch_nr, 45, 130);
+      return constrain(ch_data, 45, 130);
       break;
 
     case 1:
-      return constrain(ch_nr, 0, 180); // TODO napiši omejitev
+      return constrain(ch_data, 0, 180); // TODO napiši omejitev
       break;
 
     case 2:
-      return constrain(ch_nr, 60, 160); // diy
+      return ch_data;
       break;
 
     case 3:
-      return constrain(ch_nr, 0, 180); // TODO napiši omejitev
+      return constrain(ch_data, 0, 180); // TODO napiši omejitev
       break;
   }
+
   return 0;
 }
 
+/*
+ * mapBrushless(raw data)
+ * 
+ * funkcija mappira podatke joystcka,, 
+ * če je joystick (raw_data) manjšiu od 545(ozirma stoji) returna 0, če ne mappiran podatek
+ * 
+*/
 
 unsigned short int mapBrushless(unsigned short int tomap) {
-  return ((tomap < 545) ? 0 :  map(tomap, 545, 1023, 165, 160));
+  return ((tomap < 545) ? 0 :  constrain(map(tomap, 545, 1023, 165, 160),60, 160));//TODO
 }
 
 
