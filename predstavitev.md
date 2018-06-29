@@ -20,3 +20,5 @@ Letalo se hitro skrči, treba ga je obvladati drugače se ga ne splača peljati.
 #### Zaključek
 Letalo smo peljali, letelo je super, a smo ga potem uničili (taka je pač tradicija).
 
+### Pripomočki za izdelavo
+![Shema sprejemnika](url)
