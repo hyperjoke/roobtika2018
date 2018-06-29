@@ -1,8 +1,8 @@
 # 1. kanal   ch[0]
-Elevator
+Alietron
 
 # 2. kanal    ch[1]
-Alietron
+Elevator
 
 # 3. kanal    ch[2]
 Throttle
