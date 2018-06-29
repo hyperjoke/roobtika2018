@@ -48,11 +48,11 @@ void loop() {
   //unsigned long got_time;
   if (RadioModule.available() ) {                            // While nothing is received
     RadioModule.read( &cont_data, sizeof(podatki_za_sprejem) );
-   /* for (int i = 0; i < ST_KANALOV; i++) {
-      Serial.print(cont_data.ch[i]);
-      if (i < (ST_KANALOV - 1)) Serial.print(",");
-    }
-    Serial.println("");*/
+    /* for (int i = 0; i < ST_KANALOV; i++) {
+       Serial.print(cont_data.ch[i]);
+       if (i < (ST_KANALOV - 1)) Serial.print(",");
+      }
+      Serial.println("");*/
     updateServo(cont_data.ch);
   }
 
@@ -78,24 +78,14 @@ void updateServo(unsigned short int ch[ST_KANALOV]) {
       mapirano = mapBrushless(mapirano);
     } else {
       /*exponatno povečevanje*/
-     /* int n = map(mapirano, 0, 1023, 0, 13);
-      float math = constrain(pow(1.49105, n), 0, 180);
-      mapirano = round(math);
-
-      Serial.print(" N: ");
-      Serial.print(n);
-
-      Serial.print(" math: ");
-      Serial.print(math);*/
-
-      mapirano = constrain(map(mapirano, 0 , 1023, -20 , 200),0,180); //mapiranje/5..175 stopin
+      mapirano = pow(mapirano, 1.33);
     }
     Motor[i].write(omejitevServota(i, mapirano));
 
 
     Serial.print(" END: ");
     Serial.print(mapirano);
-     Serial.print( "   |    " );
+    Serial.print( "   |    " );
   }
   Serial.println("DELA!");
 }
