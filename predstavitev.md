@@ -1,4 +1,4 @@
-# Predstaviev RC Letalo
+# Predstaviev RC Letala
 
 ![Slika letala](http://www.generalhobby.com/images/products/Citabria-RC-Plane-1a.jpg) //todo
 
@@ -16,9 +16,22 @@ Letalo se hitro skrči, treba ga je obvladati drugače se ga ne splača peljati.
  * Dejan Mežnarc (dejan.mzc@gmail.com)
  * Martin Pusar (martin.pusar@gmail.com)
  * Alexander Gaydukov (alex.gaydukov@gmail.com)
+ 
+#### Videposnetki (youtube)
+//TODO
 
 #### Zaključek
 Letalo smo peljali, letelo je super, a smo ga potem uničili (taka je pač tradicija).
 
 ### Pripomočki za izdelavo
-![Shema sprejemnika](url)
+
+#### Sheme
+![Shema sprejemnika](https://github.com/hyperjoke/roobtika2018/blob/master/shema/sprejemnik%20(na%20letalu).png)
+
+
+![Shema oddajnika](https://github.com/hyperjoke/roobtika2018/blob/master/shema/oddajnik%20(na%20remotu).png)
+
+#### Program sprejemnika      //todo
+
+#### Program oddajnika        //todo
+
