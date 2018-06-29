@@ -80,9 +80,6 @@ void updateServo(unsigned short int ch[ST_KANALOV]) {
     } else {
       mapirano = map(mapirano, 0 , 1023, 5, 175); //mapiranje/5..175 stopin
     }
-
-    Serial.print(omejitevServota(i, mapirano));
-    Serial.print("|");
     Motor[i].write(omejitevServota(i, mapirano));
 
     //Serial.print(mapirano);
@@ -128,7 +125,7 @@ unsigned short int omejitevServota(int ch_nr, unsigned short int ch_data) {
 */
 
 unsigned short int mapBrushless(unsigned short int tomap) {
-  return ((tomap < 545) ? 0 :  constrain(map(tomap, 545, 1023, 165, 160),60, 160));//TODO
+  return ((tomap < 545) ? 0 :  constrain(map(tomap, 545, 1023, 165, 60),60, 160));
 }
 
 
