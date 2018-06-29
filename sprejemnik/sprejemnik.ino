@@ -53,7 +53,6 @@ void loop() {
       if (i < (ST_KANALOV - 1)) Serial.print(",");
     }
     Serial.println("");
-
   }
   updateServo(cont_data.ch);
   Serial.println();
@@ -82,9 +81,9 @@ void updateServo(unsigned short int ch[ST_KANALOV]) {
       mapirano = map(mapirano, 0 , 1023, 5, 175); //mapiranje/5..175 stopin
     }
 
-    Serial.print(omejitevServota(i));
+    Serial.print(omejitevServota(i, mapirano));
     Serial.print("|");
-    Motor[i].write(omejitevServota(i));
+    Motor[i].write(omejitevServota(i, mapirano));
 
     //Serial.print(mapirano);
     //Serial.print(",");
@@ -92,31 +91,44 @@ void updateServo(unsigned short int ch[ST_KANALOV]) {
   //Serial.println("DELA!");
 }
 
-unsigned short int omejitevServota(int ch_nr) {
+
+
+
+/*
+ * virtualni endstopi
+*/
+unsigned short int omejitevServota(int ch_nr, unsigned short int ch_data) {
   switch (ch_nr) {
     case 0:
-      return constrain(ch_nr, 45, 130);
+      return constrain(ch_data, 45, 130);
       break;
 
     case 1:
-      return constrain(ch_nr, 0, 180); // TODO napiši omejitev
+      return constrain(ch_data, 0, 180); // TODO napiši omejitev
       break;
 
     case 2:
-      return constrain(ch_nr, 60, 160); // diy
+      return ch_data;
       break;
 
     case 3:
-      return constrain(ch_nr, 0, 180); // TODO napiši omejitev
+      return constrain(ch_data, 0, 180); // TODO napiši omejitev
       break;
   }
 
   return 0;
 }
 
+/*
+ * mapBrushless(raw data)
+ * 
+ * funkcija mappira podatke joystcka,, 
+ * če je joystick (raw_data) manjšiu od 545(ozirma stoji) returna 0, če ne mappiran podatek
+ * 
+*/
 
 unsigned short int mapBrushless(unsigned short int tomap) {
-  return ((tomap < 545) ? 0 :  map(tomap, 545, 1023, 165, 160));//TODO
+  return ((tomap < 545) ? 0 :  constrain(map(tomap, 545, 1023, 165, 160),60, 160));//TODO
 }
 
 
