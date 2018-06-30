@@ -19,6 +19,7 @@ Letalo se hitro skrči, treba ga je obvladati drugače se ga ne splača peljati.
  
 #### Videposnetki (youtube)
 //TODO
+[![Everything Is AWESOME](http://i.imgur.com/Ot5DWAW.png)](https://youtu.be/StTqXEQ2l-Y?t=35s "Everything Is AWESOME")
 
 #### Zaključek
 Letalo smo peljali, letelo je super, a smo ga potem uničili (taka je pač tradicija).
