@@ -1,5 +1,5 @@
 # Predstaviev RC Letala
-![Slika letala](http://www.generalhobby.com/images/products/Citabria-RC-Plane-1a.jpg) //todo
+![Slika letala](https://github.com/hyperjoke/roobtika2018/blob/master/IMG_20180630_093824.jpg?raw=true) //todo
 
 #### Cilj projekta
 Namen projekta je izdelati daljinsko vodeno letalo.
